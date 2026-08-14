@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { executeC } from '@/lib/execution.js';
+import { ExecuteSchema } from '@/lib/validation.js';
 
 export async function POST(request) {
     let body;
@@ -18,21 +19,24 @@ export async function POST(request) {
         );
     }
 
-    
-    if (typeof body.code !== "string") {
+    const validation = ExecuteSchema.safeParse(body);
+
+    if (!validation.success) {
         return NextResponse.json(
             {
                 error: {
                     code: "INVALID_INPUT",
-                    message: "code must be a string"
+                    message: validation.error.issues
                 }
             },
             { status: 400 }
         );
     }
-        
+    
+    const { code, stdin } = validation.body;
+
     try {
-        const result = await executeC(body.code);
+        const result = await executeC(code, stdin);
 
         return NextResponse.json(result);
 
@@ -49,8 +53,4 @@ export async function POST(request) {
             { status: 500 }
         );
     }
-
-    // [TODO] request validation, gcc not there etc.. 
-
-    
 }
