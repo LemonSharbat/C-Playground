@@ -33,7 +33,7 @@ export async function POST(request) {
         );
     }
     
-    const { code, stdin } = validation.body;
+    const { code, stdin } = validation.data;
 
     try {
         const result = await executeC(code, stdin);
