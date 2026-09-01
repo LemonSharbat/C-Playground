@@ -51,4 +51,16 @@ describe("executeC", () => {
         expect(result.phase).toBe("execution");
         expect(result.status).toBe("success");
     });
+
+    test("Takes string input and prints that back", async () => {
+        const input = "Hello Dinku! 123";
+        const code = await readSourceFile("fgets.c");
+
+        const result = await executeC(code, input);
+
+        expect(result.exitCode).toBe(0);
+        expect(result.phase).toBe("execution");
+        expect(result.status).toBe("success");
+        expect(result.stdout).toBe(`Got: ${input}`);
+    });
 });
