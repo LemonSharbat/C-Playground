@@ -63,4 +63,28 @@ describe("executeC", () => {
         expect(result.status).toBe("success");
         expect(result.stdout).toBe(`Got: ${input}`);
     });
+
+    test("A simple for loop",  async () => {
+        const input = "13";
+        const code = await readSourceFile("loop.c");
+
+        const result = await executeC(code, input);
+
+        expect(result.exitCode).toBe(0);
+        expect(result.phase).toBe("execution");
+        expect(result.status).toBe("success");
+        expect(result.stdout).toBe("1 2 3 4 5 6 7 8 9 10 11 12 13 \n");
+    });
+
+    test("simple array with sum and avg calculation", async () => {
+        const input = "6\n2\n-1\n4\n55\n9\n3";
+        const code = await readSourceFile("array.c");
+
+        const result = await executeC(code, input);
+
+        expect(result.exitCode).toBe(0);
+        expect(result.phase).toBe("execution");
+        expect(result.status).toBe("success");
+        expect(result.stdout).toBe("Sum = 72\nAverage = 12.00\n");
+    });
 });
