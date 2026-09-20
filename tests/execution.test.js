@@ -1,5 +1,5 @@
 import { expect, test, describe } from "vitest";
-import { executeC } from "../lib/execution.js";
+import { executeC } from "../lib/dockerRunner.js";
 
 import { join } from "node:path";
 import { readFile } from "node:fs/promises";

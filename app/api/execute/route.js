@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { executeC } from '@/lib/execution.js';
+import { executeC } from '@/lib/dockerRunner.js';
 import { ExecuteSchema } from '@/lib/validation.js';
 
 export async function POST(request) {
