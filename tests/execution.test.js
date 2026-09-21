@@ -28,6 +28,7 @@ describe("executeC", () => {
         const result = await executeC(code, input);
     
         expect(result.exitCode).toBe(0);
+        expect(result.timedOut).toBe(false);
         expect(result.stdout).toBe("Hello world!\n");
     });
 
@@ -38,6 +39,7 @@ describe("executeC", () => {
         const result = await(executeC(code, input));
 
         expect(result.exitCode).toBe(0);
+        expect(result.timedOut).toBe(false);
         expect(result.status).toBe("success");
     });
 
@@ -48,6 +50,7 @@ describe("executeC", () => {
         const result = await executeC(code, input);
 
         expect(result.exitCode).toBe(0);
+        expect(result.timedOut).toBe(false);
         expect(result.phase).toBe("execution");
         expect(result.status).toBe("success");
     });
@@ -59,6 +62,7 @@ describe("executeC", () => {
         const result = await executeC(code, input);
 
         expect(result.exitCode).toBe(0);
+        expect(result.timedOut).toBe(false);
         expect(result.phase).toBe("execution");
         expect(result.status).toBe("success");
         expect(result.stdout).toBe(`Got: ${input}`);
@@ -71,6 +75,7 @@ describe("executeC", () => {
         const result = await executeC(code, input);
 
         expect(result.exitCode).toBe(0);
+        expect(result.timedOut).toBe(false);
         expect(result.phase).toBe("execution");
         expect(result.status).toBe("success");
         expect(result.stdout).toBe("1 2 3 4 5 6 7 8 9 10 11 12 13 \n");
@@ -86,5 +91,17 @@ describe("executeC", () => {
         expect(result.phase).toBe("execution");
         expect(result.status).toBe("success");
         expect(result.stdout).toBe("Sum = 72\nAverage = 12.00\n");
+    });
+
+    test("infinite loop", async () => {
+        const input = "";
+        const code = await readSourceFile("infinite_loop.c");
+
+        const result = await executeC(code, input);
+
+        expect(result.timedOut).toBe(true);
+        expect(result.phase).toBe("execution");
+        expect(result.status).toBe("timeout");
+        expect(result.stdout).toBe("");
     });
 });

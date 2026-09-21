@@ -59,6 +59,10 @@ export default function Home() {
         setOutput(data.stderr);
       }
 
+      if (data.phase === "execution" && data.status === "timeout") {
+        setOutput("time limit exceeded!");
+      }
+
     } catch (error) {
       setOutput("Could not connect to the server");
       console.error(error);
